@@ -397,3 +397,152 @@ The removal is already scheduled as STOR-03 in Phase 3. This section documents i
 | Visit Tracking | Green | Green | Yellow | Low — consider hiding day count |
 | Feedback Lines | Green | Green | Green | No action needed |
 | Streak Function | Green | Green | Red | High — remove in Phase 3 |
+
+---
+
+## Gap Analysis: What's Missing?
+
+Ritual and companion games typically include certain mechanics that Lanternkeeper does not yet have. Some of these gaps matter for our design pillars; others don't. This section identifies each gap, assesses whether it matters, and recommends next steps.
+
+---
+
+### Gap 1: Contextual World Response to Absence
+
+**What it is:** Many companion games subtly change the world's appearance or Aetherling's tone based on how long the player has been away. The world acknowledges the return without guilt.
+
+**Present in Lanternkeeper?** No. The world looks identical whether the user returns after 1 day or 30 days. There is no ambient change on re-entry.
+
+**Does it matter for the pillars?** Matters for "Inspired." A subtle ambient change on return — not guilt-based, just a quiet acknowledgment — could reinforce that the world noticed the user came back. This is distinct from the streak mechanic: the world does not punish absence, but it does greet presence.
+
+**Assessment:** Worth exploring in future phases. Not urgent. The current clean-slate behavior is valid and safe — this is an enhancement, not a fix.
+
+**Strength: Worth Exploring**
+
+**Reference:** Ian Bogost, "Play Anything" (2016) — games that acknowledge the player's return without judgment create stronger attachment than those that either ignore absence or penalize it.
+
+---
+
+### Gap 2: Quest Deduplication / Seen Tracking
+
+**What it is:** No tracking of which quests the user has already received. Quest selection is pure `Math.random()`, so the same quest can appear on back-to-back visits.
+
+**Present in Lanternkeeper?** No. Repeat probability from the home screen's 3-quest pool is 33%. Even with the canonical 10-quest pool, repeats accumulate as visit count grows.
+
+**Does it matter for the pillars?** Matters moderately for "Understood." Repeated quests feel mechanical as user tenure grows — like the companion is not paying attention.
+
+**Assessment:** Low-complexity improvement for Phase 4. Track the last 3 quests shown per emotion and exclude them from the next selection. The `getAnotherQuest()` function in `src/data/quests.ts` already exists and could serve as the foundation for this.
+
+**Strength: Strong Candidate** for Phase 4.
+
+**Reference:** Raph Koster, "A Theory of Fun for Game Design" (2004) — even small pools benefit from tracking recently shown items to maintain the feeling of a responsive companion.
+
+---
+
+### Gap 3: "Alright" Region
+
+The absence of a dedicated world space for the "alright" emotional state is already documented under the Region Unlock System section (Finding 2: Missing "Alright" Region). Cross-referenced here because it is also a gap relative to companion game conventions — most games in this space give every emotional state a corresponding world expression.
+
+**Strength: Cross-referenced** — see Region Unlock System section.
+
+**Assessment:** This gap matters strongly for "Understood." The healthiest emotional state is the only one without a world space.
+
+---
+
+### Gap 4: Progressive Aetherling Dialogue
+
+**What it is:** In many companion games, the companion's tone and dialogue change over time based on the player's history. An early visit sounds different from a 100th visit.
+
+**Present in Lanternkeeper?** No. Aetherling says the same feedback lines regardless of how many times the user has visited. There is no memory of past interactions.
+
+**Does it matter for the pillars?** Matters for "Understood." Over time, sameness can feel like the companion doesn't actually know you. A player who has used the app for six months deserves a companion who has grown with them, not one who greets them the same way every day.
+
+**Assessment:** Future milestone feature. This requires session count awareness in the feedback selection logic — not complex, but it is a meaningful addition that benefits from planning. Not urgent until the app has a sustained user base.
+
+**Strength: Worth Exploring** in a future milestone.
+
+**Reference:** Jonathan Blow, GDC 2011 "Indie Game Design Do-s and Don't-s" — companions that react to accumulated history feel meaningfully different from those that repeat the same behavior regardless of context.
+
+---
+
+### Gap 5: Seasonal or Time-of-Day Scene Variation
+
+**What it is:** Many companion apps vary their visual presentation based on time of day or season. Morning vs. evening, winter vs. summer — small variations that make the app feel alive.
+
+**Present in Lanternkeeper?** No. The scene is the same at all times.
+
+**Does it matter for the pillars?** Would enhance "Understood" but is not critical. The current fixed scene is consistent and reliable, which has its own value for a ritual app.
+
+**Assessment:** Nice-to-have. Low priority. Could be a visual polish item in a future phase, after the core mechanics are fully refined.
+
+**Strength: Worth Exploring** — low priority.
+
+---
+
+### Gap 6: Quest Skip / "Another" Option
+
+**What it is:** Many companion games allow the user to say "this quest doesn't feel right today" and get a different suggestion without penalty.
+
+**Present in Lanternkeeper?** Partially. `getAnotherQuest()` exists in `src/data/quests.ts` but is not surfaced in the UI. The home screen presents one quest with no skip option — the user can complete it or close the app.
+
+**Does it matter for the pillars?** Matters for "Less Pressured." If the suggested quest doesn't fit today, the current UX offers no alternative. The user either completes something that doesn't fit or exits. Neither feels supported.
+
+**Assessment:** Strong candidate for a future phase. The code infrastructure already exists in `getAnotherQuest()`. Surfacing it in the UI is a small change with meaningful impact on the "Less Pressured" pillar.
+
+**Strength: Strong Candidate** for Phase 4.
+
+**Reference:** BJ Fogg, "Tiny Habits" (2019) — habit-forming interactions benefit from flexibility. A user who can find a task that fits is more likely to complete something than one who is stuck with a task that doesn't fit and has no alternative.
+
+---
+
+## Parameter Interactions
+
+Some parameters don't work alone — they combine to create the player's experience. When you change one, the others may need to change too. This map shows which parameters interact and where conflicts exist.
+
+| Parameters | What They Affect Together | Conflict? |
+|------------|--------------------------|-----------|
+| Region emotion thresholds (3) + days visited thresholds (7, 14) | Pacing of world expansion | Yes — a player who checks in with "inspired" frequently unlocks workshop-glade at day 3, but observatory-balcony requires 7 visits. World can feel stalled between unlocks. |
+| Fog wisp count + fog touch radius + leaf count + leaf touch radius | Ease of path clearing | Yes — more wisps or smaller radius = longer clearing = more friction before the ritual begins. These four values must be tuned together. |
+| Fog clear duration + path-cleared delay + door-open delay | Perceived ritual length | Compounding: 600ms fog + 800ms door delay + 600ms walk = at least 2 seconds of mandatory waiting. Changing any one delay changes the overall ritual feel. |
+| Scene height ratio + safe offset multiplier | Scene layout on different devices | Yes — these interact to position fog, leaves, panda, and door. Changing one without the other can break layout on certain screen sizes. |
+| Region unlock thresholds + fog persistence mode | Long-term ritual feel | Indirect: persistence mode affects whether the world "remembers" daily effort; unlock thresholds affect whether that effort produces visible world change. A persistent world with slow unlocks could feel meaningful; a resetting world with fast unlocks could feel forgettable. |
+
+When tuning parameters, check this interaction map first. If you're changing a value that appears in the left column, consider whether the other parameters in its row also need adjustment.
+
+---
+
+## Parameter Calibration
+
+For each tunable value, we assess whether its current setting gives enough room to create a meaningful difference if changed. Some values are well-sized; others are too narrow (changing them wouldn't matter) or too broad (the current value might be accidentally wrong).
+
+| Parameter | Current Value | Calibration | What This Means |
+|-----------|---------------|-------------|-----------------|
+| Region emotion thresholds | 3 | Well-sized | Low enough to reach quickly (no pressure), high enough to feel like it meant something. A new player hits this within 3 sessions. |
+| Region days thresholds | 7 and 14 | Well-sized | One week and two weeks of casual use. Appropriate pacing for a companion app. |
+| Fog wisp count | 3 | Well-sized | Clears in under 30 seconds. Enough to feel like a ritual, not so many it becomes a chore. |
+| Leaf count | 3 | Well-sized | Same reasoning as fog wisps. |
+| Fog clear duration | 600ms | Well-sized | Perceptibly satisfying without feeling slow. |
+| Leaf clear duration | 800ms | Well-sized | Slightly longer than fog — the leaf "flies away" feel needs the extra 200ms. |
+| Door open delay | 800ms | Possibly too long | Combined with the 600ms walk delay, the user waits 1.4 seconds after clearing before anything happens. May feel sluggish on repeat visits. Worth experimenting with 400–600ms. |
+| Scene height ratio | 0.45 | Unknown | Needs testing on different phone sizes. Could be too tall on short screens or too cramped on tall screens. |
+| Quest pool (home screen) | 3 per emotion | Too narrow | 33% chance of seeing the same quest twice in a row. Should use the canonical 10-quest pool (already exists in code). |
+| Quest pool (canonical) | 10 per emotion | Well-sized | Low enough for coherent curation, high enough to avoid rapid repetition. |
+
+---
+
+## Appendix: Full Parameter Reference
+
+All tunable game parameters live in a single file: [`src/config/game.ts`](../../src/config/game.ts). If you want to experiment with a value, that is the only file you need to edit.
+
+See the inline comments in that file for documentation of each parameter.
+
+**Where to find context on each parameter:**
+
+- Region unlock thresholds → [Region Unlock System](#region-unlock-system) section
+- Scene layout (height ratio, safe offset, fog wisp count, leaf count, touch radii) → [Fog and Leaf Clearing](#fog-and-leaf-clearing) section
+- Fog persistence mode → [Fog and Leaf Clearing — Three Options](#three-options-for-fog-persistence) section
+- Animation durations (fog clear, leaf clear, lift, scale) → [Fog and Leaf Clearing](#fog-and-leaf-clearing) section
+- Timing delays (path-cleared to door-open, door-open to walk-start) → [Fog and Leaf Clearing](#fog-and-leaf-clearing) and [Parameter Calibration](#parameter-calibration) section
+- Quest pool sizes → [Quest System — Quest Pool Exhaustion](#quest-pool-exhaustion) section
+- Visit counting → [Visit Tracking and Day Counting](#visit-tracking-and-day-counting) section
+
+**Convention:** All game-feel numbers belong in `src/config/game.ts`. Do not add new magic numbers to logic files. A lint rule to enforce this may be added in a future phase.
