@@ -43,13 +43,16 @@ Plans:
 ### Phase 2: Game Mechanics Audit
 **Goal**: Every game mechanic and parameter is documented in a human-readable audit, unintended pressure signals are surfaced and flagged, and Dave and Allie share a common understanding of what the prototype actually does
 **Depends on**: Phase 1
-**Requirements**: MECH-01, MECH-02, MECH-03, MECH-04, MECH-05, MECH-06, MECH-07, MECH-08, MECH-09
+**Requirements**: MECH-01, MECH-02, MECH-03, MECH-04, MECH-05, MECH-06, MECH-07, MECH-08, MECH-09, MECH-10, MECH-11, MECH-12
 **Success Criteria** (what must be TRUE):
   1. A mechanics audit document exists that a non-developer (Allie) can read and understand — covering every parameter, mechanic, and its emotional implications
   2. All tunable game parameters live in src/config/game.ts — Allie can change fog count, unlock thresholds, or animation durations without touching game logic
   3. Region unlock conditions have been reviewed and any emotion-specific gating (e.g., inspiredCount >= 3) is flagged with explicit remediation recommendation
   4. Emotion selection UX has been verified — no visual or ordering bias toward "positive" emotions
   5. calculateStreak() is documented as a design violation and marked for removal in Phase 3
+  6. Gap analysis identifies mechanics expected in ritual/companion games that Lanternkeeper lacks, with assessment of which gaps matter for the design pillars
+  7. Parameter interaction map documents where multiple parameters influence the same player experience, with conflicts flagged
+  8. Each tunable parameter has a calibration assessment — too narrow, too broad, well-sized, or unknown
 **Plans**: TBD
 
 ### Phase 3: Storage & Data Integrity

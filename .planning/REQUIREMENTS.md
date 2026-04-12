@@ -18,6 +18,9 @@ Requirements for this milestone: Evaluate & Refine the Foundation.
 - [ ] **MECH-07**: Extract all tunable game parameters to `src/config/game.ts` so Allie can adjust without code changes
 - [ ] **MECH-08**: Flag `calculateStreak()` for removal — violates "no streaks" design pillar
 - [ ] **MECH-09**: Audit quest pool exhaustion behavior — what happens when all 10 quests have been seen
+- [ ] **MECH-10**: Gap analysis — identify game parameters and mechanics that are absent but expected in ritual/companion/wellness games, flag gaps that matter for Lanternkeeper's design pillars
+- [ ] **MECH-11**: Parameter interaction analysis — document where two or more parameters influence the same player experience, flag conflicts (e.g., unlock pacing vs. "no pressure" pillar)
+- [ ] **MECH-12**: Parameter calibration assessment — for each tunable value, evaluate whether its range is too narrow (no meaningful difference), too broad (creates confusion), or missing gradation
 
 ### Project Infrastructure
 
@@ -114,6 +117,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MECH-07 | Phase 2 | Pending |
 | MECH-08 | Phase 2 | Pending |
 | MECH-09 | Phase 2 | Pending |
+| MECH-10 | Phase 2 | Pending |
+| MECH-11 | Phase 2 | Pending |
+| MECH-12 | Phase 2 | Pending |
 | STOR-01 | Phase 3 | Pending |
 | STOR-02 | Phase 3 | Pending |
 | STOR-03 | Phase 3 | Pending |
@@ -136,8 +142,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | POLI-03 | Phase 6 | Pending |
 
 **Coverage:**
-- v1 requirements: 37 total
-- Mapped to phases: 37
+- v1 requirements: 40 total
+- Mapped to phases: 40
 - Unmapped: 0
 
 ---
