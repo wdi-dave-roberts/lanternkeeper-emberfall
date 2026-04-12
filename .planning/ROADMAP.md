@@ -34,9 +34,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — MkDocs infrastructure, GitHub Actions workflows, CHANGELOG pipeline
-- [ ] 01-02-PLAN.md — Docs site content (Game Design + Dev Reference pages)
-- [ ] 01-03-PLAN.md — CLAUDE.md reconciliation and planning artifact cleanup
+- [x] 01-01-PLAN.md — MkDocs infrastructure, GitHub Actions workflows, CHANGELOG pipeline
+- [x] 01-02-PLAN.md — Docs site content (Game Design + Dev Reference pages)
+- [x] 01-03-PLAN.md — CLAUDE.md reconciliation and planning artifact cleanup
 
 **UI hint**: yes
 
