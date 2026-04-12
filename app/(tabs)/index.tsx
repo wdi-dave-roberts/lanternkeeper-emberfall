@@ -14,22 +14,28 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   completeQuest,
+  FogState,
   getTodayKey,
+  loadFogState,
   loadTodayLog,
   loadWorldState,
   recordDailyVisit,
+  saveFogState,
   WorldState,
 } from "@/lib/storage";
+import { GAME_CONFIG } from "@/src/config/game";
 
 type Emotion = "stuck" | "frustrated" | "inspired" | "alright";
 
 // Helper to generate positions based on screen dimensions (mobile-first)
 function getSceneConfig(width: number, height: number, topInset: number) {
-  // Scene takes up 45% of screen - enough room for visuals
-  const SCENE_HEIGHT = height * 0.45;
+  // Scene takes up a portion of screen - controlled by GAME_CONFIG.scene.heightRatio
+  const SCENE_HEIGHT = height * GAME_CONFIG.scene.heightRatio;
 
-  // Account for safe area in positioning - add 20% of scene height to push everything down
-  const SAFE_OFFSET = topInset + SCENE_HEIGHT * 0.20;
+  // Account for safe area in positioning - offset controlled by GAME_CONFIG.scene.safeOffsetMultiplier
+  const SAFE_OFFSET = topInset + SCENE_HEIGHT * GAME_CONFIG.scene.safeOffsetMultiplier;
+
+  const [fogSize1, fogSize2, fogSize3] = GAME_CONFIG.scene.fogWispSizes;
 
   // Path goes from bottom (where panda starts) to top (where door is)
   // All y positions include safe area offset
@@ -44,9 +50,9 @@ function getSceneConfig(width: number, height: number, topInset: number) {
       { x: width * 0.5, y: SAFE_OFFSET + SCENE_HEIGHT * 0.08 },   // At door
     ],
     FOG_WISPS: [
-      { id: 1, x: width * 0.30, y: SAFE_OFFSET + SCENE_HEIGHT * 0.40, size: 65, rotation: -5 },
-      { id: 2, x: width * 0.65, y: SAFE_OFFSET + SCENE_HEIGHT * 0.30, size: 60, rotation: 8 },
-      { id: 3, x: width * 0.38, y: SAFE_OFFSET + SCENE_HEIGHT * 0.22, size: 55, rotation: -3 },
+      { id: 1, x: width * 0.30, y: SAFE_OFFSET + SCENE_HEIGHT * 0.40, size: fogSize1, rotation: -5 },
+      { id: 2, x: width * 0.65, y: SAFE_OFFSET + SCENE_HEIGHT * 0.30, size: fogSize2, rotation: 8 },
+      { id: 3, x: width * 0.38, y: SAFE_OFFSET + SCENE_HEIGHT * 0.22, size: fogSize3, rotation: -3 },
     ],
     LEAVES: [
       { id: 1, x: width * 0.35, y: SAFE_OFFSET + SCENE_HEIGHT * 0.48, rotation: 45 },
@@ -147,17 +153,17 @@ function FogWisp({
       Animated.parallel([
         Animated.timing(opacity, {
           toValue: 0,
-          duration: 600,
+          duration: GAME_CONFIG.animation.fogClearDurationMs,
           useNativeDriver: true,
         }),
         Animated.timing(scale, {
-          toValue: 1.5,
-          duration: 600,
+          toValue: GAME_CONFIG.animation.fogClearScale,
+          duration: GAME_CONFIG.animation.fogClearDurationMs,
           useNativeDriver: true,
         }),
         Animated.timing(translateY, {
-          toValue: -40,
-          duration: 600,
+          toValue: -GAME_CONFIG.animation.fogClearLiftPx,
+          duration: GAME_CONFIG.animation.fogClearDurationMs,
           useNativeDriver: true,
         }),
       ]).start();
@@ -214,22 +220,22 @@ function Leaf({
       Animated.parallel([
         Animated.timing(opacity, {
           toValue: 0,
-          duration: 800,
+          duration: GAME_CONFIG.animation.leafClearDurationMs,
           useNativeDriver: true,
         }),
         Animated.timing(translateX, {
-          toValue: direction * (60 + Math.random() * 40),
-          duration: 800,
+          toValue: direction * (GAME_CONFIG.animation.leafClearHorizontalMin + Math.random() * (GAME_CONFIG.animation.leafClearHorizontalMax - GAME_CONFIG.animation.leafClearHorizontalMin)),
+          duration: GAME_CONFIG.animation.leafClearDurationMs,
           useNativeDriver: true,
         }),
         Animated.timing(translateY, {
-          toValue: -60 - Math.random() * 30,
-          duration: 800,
+          toValue: -(GAME_CONFIG.animation.leafClearVerticalMin + Math.random() * (GAME_CONFIG.animation.leafClearVerticalMax - GAME_CONFIG.animation.leafClearVerticalMin)),
+          duration: GAME_CONFIG.animation.leafClearDurationMs,
           useNativeDriver: true,
         }),
         Animated.timing(spin, {
           toValue: direction * 2,
-          duration: 800,
+          duration: GAME_CONFIG.animation.leafClearDurationMs,
           useNativeDriver: true,
         }),
       ]).start();
@@ -512,11 +518,18 @@ export default function HomeScreen() {
   // Load saved state on mount
   useEffect(() => {
     async function loadState() {
-      const [state, todayLog] = await Promise.all([
+      const [state, todayLog, fogState] = await Promise.all([
         loadWorldState(),
         loadTodayLog(),
+        loadFogState(),
       ]);
       setWorldState(state);
+
+      // Restore fog/leaf clearing from persistence (no-op in reset mode)
+      if (fogState) {
+        setClearedFog(new Set(fogState.clearedFogIds));
+        setClearedLeaves(new Set(fogState.clearedLeafIds));
+      }
 
       const today = getTodayKey();
       if (state.lastVisitDate === today) {
@@ -549,8 +562,8 @@ export default function HomeScreen() {
         setTimeout(() => {
           setIsWalking(true);
           setShowDialogue(false);
-        }, 600);
-      }, 800);
+        }, GAME_CONFIG.timing.doorOpenToWalkStartMs);
+      }, GAME_CONFIG.timing.pathClearedToDoorsOpenMs);
 
       return () => clearTimeout(timer);
     }
@@ -597,6 +610,13 @@ export default function HomeScreen() {
     });
   }, [clearedFog.size, LEAVES.length, FOG_WISPS.length]);
 
+  // Persist fog/leaf clearing state when it changes (no-op in reset mode)
+  useEffect(() => {
+    if (clearedFog.size > 0 || clearedLeaves.size > 0) {
+      saveFogState([...clearedFog], [...clearedLeaves]);
+    }
+  }, [clearedFog, clearedLeaves]);
+
   // Pan gesture for swiping
   const panGesture = Gesture.Pan()
     .onUpdate((event) => {
@@ -608,7 +628,7 @@ export default function HomeScreen() {
           const dx = touchX - wisp.x;
           const dy = touchY - wisp.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < wisp.size / 2 + 25) {
+          if (distance < wisp.size / 2 + GAME_CONFIG.scene.fogTouchRadiusBuffer) {
             handleClearFog(wisp.id);
           }
         }
@@ -619,7 +639,7 @@ export default function HomeScreen() {
           const dx = touchX - leaf.x;
           const dy = touchY - leaf.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < 40) {
+          if (distance < GAME_CONFIG.scene.leafTouchRadius) {
             handleClearLeaf(leaf.id);
           }
         }
