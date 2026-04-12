@@ -27,6 +27,7 @@ nav:
     - Core Loop: game-design/core-loop.md
     - Micro-Quests: game-design/quests.md
     - Feedback Lines: game-design/feedback.md
+    - Mechanics Audit: game-design/mechanics-audit.md
   - Dev Reference:
     - Architecture: dev-reference/architecture.md
     - Conventions: dev-reference/conventions.md
