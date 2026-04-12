@@ -27,6 +27,7 @@ The app makes the user feel understood, inspired, and less pressured — or it d
 
 - [x] Reconcile CLAUDE.md -- slim to terse constraints, remove content catalogs, add pointers to src/data/ and docs site — Validated in Phase 1: Project Infrastructure
 - [x] Migrate game design docs and enable GitHub Pages with docs theme — Validated in Phase 1: Project Infrastructure
+- [x] Storage consolidation and data integrity — single storage layer, rich DailyLog schema, streak removal, test foundation — Validated in Phase 3: Storage & Data Integrity
 - [ ] Technical architecture audit — evaluate code structure, component organization, state management patterns
 - [ ] Performance optimization — identify and fix animation jank, memory issues, unnecessary re-renders
 - [ ] Game mechanics audit — document all parameters and mechanics, surface unintended gameplay implications, identify blindspots
