@@ -31,7 +31,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Docs site contains game design goals, design pillars, Aetherling voice rules, core loop, and micro-quest content
   4. CLAUDE.md is a single reconciled file — Godot architecture docs removed, design pillars and voice rules are the canonical source
   5. Emotional acceptance criteria are documented as pillar checks that apply to every future change
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — MkDocs infrastructure, GitHub Actions workflows, CHANGELOG pipeline
+- [ ] 01-02-PLAN.md — Docs site content (Game Design + Dev Reference pages)
+- [ ] 01-03-PLAN.md — CLAUDE.md reconciliation and planning artifact cleanup
+
 **UI hint**: yes
 
 ### Phase 2: Game Mechanics Audit
@@ -100,7 +106,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Infrastructure | 0/? | Not started | - |
+| 1. Project Infrastructure | 0/3 | Planning complete | - |
 | 2. Game Mechanics Audit | 0/? | Not started | - |
 | 3. Storage & Data Integrity | 0/? | Not started | - |
 | 4. Architecture Refactor | 0/? | Not started | - |
