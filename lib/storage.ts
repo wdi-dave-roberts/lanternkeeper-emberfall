@@ -1,8 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GAME_CONFIG } from '@/src/config/game';
 
 const LOG_PREFIX = 'daily-log:';
 const FIRST_LANTERN_KEY = 'first-lantern-seen';
 const WORLD_STATE_KEY = 'world-state';
+const FOG_STATE_KEY = 'fog-cleared-state';
 
 // First Lantern (onboarding)
 export async function hasSeenFirstLantern(): Promise<boolean> {
@@ -36,7 +38,7 @@ const DEFAULT_WORLD_STATE: WorldState = {
     inspired: 0,
     alright: 0,
   },
-  unlockedRegions: ['lantern-clearing'],
+  unlockedRegions: [GAME_CONFIG.regionUnlocks.defaultRegion],
 };
 
 export async function loadWorldState(): Promise<WorldState> {
@@ -75,23 +77,63 @@ export async function recordDailyVisit(emotion: string): Promise<WorldState> {
 function checkRegionUnlocks(state: WorldState): string[] {
   const unlocks: string[] = [];
 
-  if (state.emotionCounts.inspired >= 3 && !state.unlockedRegions.includes('workshop-glade')) {
+  if (state.emotionCounts.inspired >= GAME_CONFIG.regionUnlocks.workshopGlade.inspiredCount && !state.unlockedRegions.includes('workshop-glade')) {
     unlocks.push('workshop-glade');
   }
-  if (state.emotionCounts.stuck >= 3 && !state.unlockedRegions.includes('fog-valley')) {
+  if (state.emotionCounts.stuck >= GAME_CONFIG.regionUnlocks.fogValley.stuckCount && !state.unlockedRegions.includes('fog-valley')) {
     unlocks.push('fog-valley');
   }
-  if (state.emotionCounts.frustrated >= 3 && !state.unlockedRegions.includes('warm-river')) {
+  if (state.emotionCounts.frustrated >= GAME_CONFIG.regionUnlocks.warmRiver.frustratedCount && !state.unlockedRegions.includes('warm-river')) {
     unlocks.push('warm-river');
   }
-  if (state.totalDaysVisited >= 7 && !state.unlockedRegions.includes('observatory-balcony')) {
+  if (state.totalDaysVisited >= GAME_CONFIG.regionUnlocks.observatoryBalcony.daysVisited && !state.unlockedRegions.includes('observatory-balcony')) {
     unlocks.push('observatory-balcony');
   }
-  if (state.totalDaysVisited >= 14 && !state.unlockedRegions.includes('the-long-path')) {
+  if (state.totalDaysVisited >= GAME_CONFIG.regionUnlocks.theLongPath.daysVisited && !state.unlockedRegions.includes('the-long-path')) {
     unlocks.push('the-long-path');
   }
 
   return unlocks;
+}
+
+// Fog persistence state — supports reset, persist, and hybrid modes (see GAME_CONFIG.scene.fogPersistence)
+export interface FogState {
+  clearedFogIds: number[];
+  clearedLeafIds: number[];
+  date: string;
+}
+
+export async function loadFogState(): Promise<FogState | null> {
+  if (GAME_CONFIG.scene.fogPersistence === 'reset') {
+    return null; // Reset mode: never load persisted state
+  }
+  try {
+    const raw = await AsyncStorage.getItem(FOG_STATE_KEY);
+    if (!raw) return null;
+    const state: FogState = JSON.parse(raw);
+    if (GAME_CONFIG.scene.fogPersistence === 'hybrid') {
+      // Hybrid: only load if same day
+      const today = getTodayKey();
+      if (state.date !== today) return null;
+    }
+    return state;
+  } catch {
+    return null;
+  }
+}
+
+export async function saveFogState(fogIds: number[], leafIds: number[]): Promise<void> {
+  if (GAME_CONFIG.scene.fogPersistence === 'reset') return; // No-op in reset mode
+  const state: FogState = {
+    clearedFogIds: fogIds,
+    clearedLeafIds: leafIds,
+    date: getTodayKey(),
+  };
+  try {
+    await AsyncStorage.setItem(FOG_STATE_KEY, JSON.stringify(state));
+  } catch {
+    // Silent failure — fog persistence is non-critical
+  }
 }
 
 export interface DailyLog {
