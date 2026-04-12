@@ -53,7 +53,12 @@ Plans:
   6. Gap analysis identifies mechanics expected in ritual/companion games that Lanternkeeper lacks, with assessment of which gaps matter for the design pillars
   7. Parameter interaction map documents where multiple parameters influence the same player experience, with conflicts flagged
   8. Each tunable parameter has a calibration assessment — too narrow, too broad, well-sized, or unknown
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Config extraction: centralize all magic numbers to src/config/game.ts + fog persistence modes
+- [ ] 02-02-PLAN.md — Mechanics audit document: individual mechanic sections with traffic-light pillar ratings
+- [ ] 02-03-PLAN.md — Audit analytical sections (gap analysis, parameter interactions, calibration) + human review checkpoint
 
 ### Phase 3: Storage & Data Integrity
 **Goal**: The app has a single, trustworthy storage layer — no silent data loss, no schema drift, no duplicate files, no streak logic waiting to corrupt the ritual
@@ -110,7 +115,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Project Infrastructure | 0/3 | Planning complete | - |
-| 2. Game Mechanics Audit | 0/? | Not started | - |
+| 2. Game Mechanics Audit | 0/3 | Planning complete | - |
 | 3. Storage & Data Integrity | 0/? | Not started | - |
 | 4. Architecture Refactor | 0/? | Not started | - |
 | 5. Animation Performance | 0/? | Not started | - |
