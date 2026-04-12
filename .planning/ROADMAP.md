@@ -70,7 +70,11 @@ Plans:
   3. calculateStreak() is gone — no streak function exists anywhere in the codebase
   4. Emotion type is defined in exactly one place — no duplication across files
   5. App starts fresh after clearing storage and daily log data round-trips without corruption
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Test infrastructure setup, dead code deletion, calculateStreak removal
+- [ ] 03-02-PLAN.md — DailyLog schema rewrite, Emotion type dedup, caller updates, tests green
 
 ### Phase 4: Architecture Refactor
 **Goal**: The codebase has a clean 4-layer structure — screens compose hooks, hooks own logic, storage is pure read/write, config is at the bottom — and is readable enough for Allie to learn from and contribute to
@@ -116,7 +120,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Project Infrastructure | 0/3 | Planning complete | - |
 | 2. Game Mechanics Audit | 0/3 | Planning complete | - |
-| 3. Storage & Data Integrity | 0/? | Not started | - |
+| 3. Storage & Data Integrity | 0/2 | Planning complete | - |
 | 4. Architecture Refactor | 0/? | Not started | - |
 | 5. Animation Performance | 0/? | Not started | - |
 | 6. Polish & Ship-Readiness | 0/? | Not started | - |
