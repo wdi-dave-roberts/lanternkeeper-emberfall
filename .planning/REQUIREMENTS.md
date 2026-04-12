@@ -97,49 +97,49 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFR-01 | Pending | Pending |
-| INFR-02 | Pending | Pending |
-| INFR-03 | Pending | Pending |
-| INFR-04 | Pending | Pending |
-| MECH-01 | Pending | Pending |
-| MECH-02 | Pending | Pending |
-| MECH-03 | Pending | Pending |
-| MECH-04 | Pending | Pending |
-| MECH-05 | Pending | Pending |
-| MECH-06 | Pending | Pending |
-| MECH-07 | Pending | Pending |
-| MECH-08 | Pending | Pending |
-| MECH-09 | Pending | Pending |
-| DOCS-01 | Pending | Pending |
-| DOCS-02 | Pending | Pending |
-| DOCS-03 | Pending | Pending |
-| DOCS-04 | Pending | Pending |
-| STOR-01 | Pending | Pending |
-| STOR-02 | Pending | Pending |
-| STOR-03 | Pending | Pending |
-| STOR-04 | Pending | Pending |
-| STOR-05 | Pending | Pending |
-| ARCH-01 | Pending | Pending |
-| ARCH-02 | Pending | Pending |
-| ARCH-03 | Pending | Pending |
-| ARCH-04 | Pending | Pending |
-| ARCH-05 | Pending | Pending |
-| ARCH-06 | Pending | Pending |
-| ARCH-07 | Pending | Pending |
-| PERF-01 | Pending | Pending |
-| PERF-02 | Pending | Pending |
-| PERF-03 | Pending | Pending |
-| PERF-04 | Pending | Pending |
-| PERF-05 | Pending | Pending |
-| POLI-01 | Pending | Pending |
-| POLI-02 | Pending | Pending |
-| POLI-03 | Pending | Pending |
+| INFR-01 | Phase 1 | Pending |
+| INFR-02 | Phase 1 | Pending |
+| INFR-03 | Phase 1 | Pending |
+| INFR-04 | Phase 1 | Pending |
+| DOCS-01 | Phase 1 | Pending |
+| DOCS-02 | Phase 1 | Pending |
+| DOCS-03 | Phase 1 | Pending |
+| DOCS-04 | Phase 1 | Pending |
+| MECH-01 | Phase 2 | Pending |
+| MECH-02 | Phase 2 | Pending |
+| MECH-03 | Phase 2 | Pending |
+| MECH-04 | Phase 2 | Pending |
+| MECH-05 | Phase 2 | Pending |
+| MECH-06 | Phase 2 | Pending |
+| MECH-07 | Phase 2 | Pending |
+| MECH-08 | Phase 2 | Pending |
+| MECH-09 | Phase 2 | Pending |
+| STOR-01 | Phase 3 | Pending |
+| STOR-02 | Phase 3 | Pending |
+| STOR-03 | Phase 3 | Pending |
+| STOR-04 | Phase 3 | Pending |
+| STOR-05 | Phase 3 | Pending |
+| ARCH-01 | Phase 4 | Pending |
+| ARCH-02 | Phase 4 | Pending |
+| ARCH-03 | Phase 4 | Pending |
+| ARCH-04 | Phase 4 | Pending |
+| ARCH-05 | Phase 4 | Pending |
+| ARCH-06 | Phase 4 | Pending |
+| ARCH-07 | Phase 4 | Pending |
+| PERF-01 | Phase 5 | Pending |
+| PERF-02 | Phase 5 | Pending |
+| PERF-03 | Phase 5 | Pending |
+| PERF-04 | Phase 5 | Pending |
+| PERF-05 | Phase 5 | Pending |
+| POLI-01 | Phase 6 | Pending |
+| POLI-02 | Phase 6 | Pending |
+| POLI-03 | Phase 6 | Pending |
 
 **Coverage:**
 - v1 requirements: 37 total
-- Mapped to phases: 0
-- Unmapped: 37 ⚠️
+- Mapped to phases: 37
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-12*
-*Last updated: 2026-04-12 after initial definition*
+*Last updated: 2026-04-12 after roadmap creation*
