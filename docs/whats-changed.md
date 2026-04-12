@@ -14,11 +14,15 @@ This page tracks every meaningful change to Lanternkeeper: Emberfall. Generated 
 
 Hey Allie — before touching any game code, I set up the technical foundation so we have a clean starting point going forward.
 
-**What happened:**
+**This docs site now exists.** It auto-deploys when we push to master. Everything about the game's design — pillars, voice rules, core loop, quests — is documented here so we always have a reference. There's also a Dev Reference section with a Git primer, architecture overview, and contributing guide written for you.
 
-- **This docs site** now exists and auto-deploys when we push to master. Everything about the game's design — pillars, voice rules, core loop, quests — is documented here so we always have a reference.
-- **CLAUDE.md** (the file that tells Claude how to work on our project) was cleaned up and slimmed down. It used to have all 40 quests and 20 feedback lines pasted directly in it. Now it just points to `src/data/` where that content actually lives. Less clutter, same rules.
-- **A changelog system** is running so we can track what changes over time without guessing.
+**CLAUDE.md got cleaned up.** It used to have all 40 quests and 20 feedback lines pasted directly in it. That was a lot of clutter for an instructions file. Now it just points to `src/data/` where that content actually lives — same rules, less noise. Also renamed `claude.md` → `CLAUDE.md` to match our naming convention.
+
+**Cleaned up some cross-project confusion.** A few planning documents referenced "Godot architecture docs" that were supposed to be merged in. Those docs never existed — it was a copy-paste mix-up from a different project. Removed those references so our planning files are accurate.
+
+**A changelog system is running.** This What's Changed page and the CHANGELOG.md file track what happens over time so neither of us has to guess what changed or why.
+
+---
 
 **What did NOT change:**
 
