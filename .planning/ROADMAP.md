@@ -73,8 +73,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Test infrastructure setup, dead code deletion, calculateStreak removal
-- [ ] 03-02-PLAN.md — DailyLog schema rewrite, Emotion type dedup, caller updates, tests green
+- [x] 03-01-PLAN.md — Test infrastructure setup, dead code deletion, calculateStreak removal
+- [x] 03-02-PLAN.md — DailyLog schema rewrite, Emotion type dedup, caller updates, tests green
 
 ### Phase 4: Architecture Refactor
 **Goal**: The codebase has a clean 4-layer structure — screens compose hooks, hooks own logic, storage is pure read/write, config is at the bottom — and is readable enough for Allie to learn from and contribute to
