@@ -1,0 +1,59 @@
+name: Generate What's Changed
+
+on:
+  schedule:
+    # Sunday 9 AM Eastern = 1 PM UTC (EDT) / 2 PM UTC (EST)
+    - cron: '0 13 * * 0'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-actions[bot]'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Check for changelog changes since last generation
+        id: check_changes
+        run: |
+          # Find the last bot commit that generated whats-changed
+          LAST_GEN=$(git log --oneline --author="github-actions" --grep="regenerate whats-changed" -1 --format="%H" 2>/dev/null || echo "")
+          if [ -z "$LAST_GEN" ]; then
+            echo "No prior generation found — will generate"
+            echo "should_generate=true" >> $GITHUB_OUTPUT
+          else
+            CHANGES=$(git diff "$LAST_GEN"..HEAD -- CHANGELOG.md | wc -l | tr -d ' ')
+            if [ "$CHANGES" -eq "0" ]; then
+              echo "No CHANGELOG.md changes since last generation"
+              echo "should_generate=false" >> $GITHUB_OUTPUT
+            else
+              echo "Found $CHANGES lines of CHANGELOG.md changes"
+              echo "should_generate=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Generate whats-changed.md
+        if: steps.check_changes.outputs.should_generate == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 scripts/generate_whats_changed.py
+
+      - name: Commit and push
+        if: steps.check_changes.outputs.should_generate == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/whats-changed.md
+          git diff --staged --quiet || git commit -m "chore: regenerate whats-changed from changelog [skip ci]"
+          git push
