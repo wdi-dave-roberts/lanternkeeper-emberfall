@@ -1,0 +1,44 @@
+site_name: "Lanternkeeper: Emberfall"
+site_url: https://wdi-dave-roberts.github.io/lanternkeeper-emberfall/
+repo_url: https://github.com/wdi-dave-roberts/lanternkeeper-emberfall
+edit_uri: edit/master/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: deep orange
+      accent: amber
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - toc.follow
+    - content.action.edit
+
+nav:
+  - Home: index.md
+  - "What's Changed": whats-changed.md
+  - Game Design:
+    - Design Pillars: game-design/pillars.md
+    - "Aetherling's Voice": game-design/voice.md
+    - Core Loop: game-design/core-loop.md
+    - Micro-Quests: game-design/quests.md
+    - Feedback Lines: game-design/feedback.md
+  - Dev Reference:
+    - Architecture: dev-reference/architecture.md
+    - Conventions: dev-reference/conventions.md
+    - Contributing: dev-reference/contributing.md
+    - Git Primer: dev-reference/git-primer.md
+    - GSD Workflow: dev-reference/gsd-workflow.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - toc:
+      permalink: true
