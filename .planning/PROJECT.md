@@ -25,8 +25,8 @@ The app makes the user feel understood, inspired, and less pressured — or it d
 
 ### Active
 
-- [ ] Reconcile CLAUDE.md -- slim to terse constraints, remove content catalogs, add pointers to src/data/ and docs site
-- [ ] Migrate game design docs and enable GitHub Pages with docs theme
+- [x] Reconcile CLAUDE.md -- slim to terse constraints, remove content catalogs, add pointers to src/data/ and docs site — Validated in Phase 1: Project Infrastructure
+- [x] Migrate game design docs and enable GitHub Pages with docs theme — Validated in Phase 1: Project Infrastructure
 - [ ] Technical architecture audit — evaluate code structure, component organization, state management patterns
 - [ ] Performance optimization — identify and fix animation jank, memory issues, unnecessary re-renders
 - [ ] Game mechanics audit — document all parameters and mechanics, surface unintended gameplay implications, identify blindspots
@@ -75,7 +75,7 @@ The app makes the user feel understood, inspired, and less pressured — or it d
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Evaluate before extending | First-time game devs need to understand what they've built before adding to it | — Pending |
-| Docs reconciliation first | Need single source of truth before making architectural decisions | — Pending |
+| Docs reconciliation first | Need single source of truth before making architectural decisions | ✓ Phase 1 — CLAUDE.md reconciled, docs site live |
 | Game mechanics audit | Surface unintended gameplay from vibe-coded parameters | — Pending |
 | No rewrite | Respect Allie's prototype, refine incrementally | — Pending |
 
