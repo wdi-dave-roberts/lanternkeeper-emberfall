@@ -136,11 +136,6 @@ export async function saveFogState(fogIds: number[], leafIds: number[]): Promise
   }
 }
 
-export interface DailyLog {
-  date: string;
-  completedQuests: string[];
-}
-
 // Get today's date as YYYY-MM-DD
 export function getTodayKey(): string {
   const now = new Date();
@@ -183,24 +178,3 @@ export async function completeQuest(questId: string): Promise<DailyLog> {
   return log;
 }
 
-// Calculate current streak (consecutive days with at least one quest)
-export async function calculateStreak(): Promise<number> {
-  let streak = 0;
-  const today = new Date();
-
-  for (let i = 0; i < 365; i++) {
-    const date = new Date(today);
-    date.setDate(date.getDate() - i);
-    const key = date.toISOString().split('T')[0];
-    const log = await loadDailyLog(key);
-
-    if (log && log.completedQuests.length > 0) {
-      streak++;
-    } else if (i > 0) {
-      // Allow today to be incomplete, but break on past empty days
-      break;
-    }
-  }
-
-  return streak;
-}
