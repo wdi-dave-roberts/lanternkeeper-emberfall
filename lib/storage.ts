@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GAME_CONFIG } from '@/src/config/game';
+import type { Emotion, Quest, DailyLog } from '@/src/data/types';
 
 const LOG_PREFIX = 'daily-log:';
 const FIRST_LANTERN_KEY = 'first-lantern-seen';
@@ -161,20 +162,24 @@ export async function loadDailyLog(date: string): Promise<DailyLog | null> {
   return JSON.parse(data) as DailyLog;
 }
 
-// Load today's log (convenience)
-export async function loadTodayLog(): Promise<DailyLog> {
-  const today = getTodayKey();
-  const existing = await loadDailyLog(today);
-  return existing ?? { date: today, completedQuests: [] };
+// Load today's log (convenience) -- returns null if no ritual completed today
+export async function loadTodayLog(): Promise<DailyLog | null> {
+  return loadDailyLog(getTodayKey());
 }
 
-// Mark a quest as completed for today
-export async function completeQuest(questId: string): Promise<DailyLog> {
-  const log = await loadTodayLog();
-  if (!log.completedQuests.includes(questId)) {
-    log.completedQuests.push(questId);
-    await saveDailyLog(log);
-  }
+// Save a complete daily ritual from emotion and quest context
+export async function saveDailyRitual(
+  emotion: Emotion,
+  quest: Quest
+): Promise<DailyLog> {
+  const log: DailyLog = {
+    date: getTodayKey(),
+    emotion,
+    quest,
+    completed: true,
+    completedAt: new Date().toISOString(),
+  };
+  await saveDailyLog(log);
   return log;
 }
 
