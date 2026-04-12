@@ -28,7 +28,7 @@ Requirements for this milestone: Evaluate & Refine the Foundation.
 
 ### Documentation & Source of Truth
 
-- [ ] **DOCS-01**: Reconcile CLAUDE.md files — merge Dave's Godot architecture docs with Allie's design pillars and Aetherling voice rules
+- [ ] **DOCS-01**: Reconcile CLAUDE.md -- slim to terse constraints, remove content catalogs, add pointers to src/data/ and docs site
 - [ ] **DOCS-02**: Document emotional acceptance criteria — pillar checks that apply to every future change
 - [ ] **DOCS-03**: Populate docs site with game design docs (design pillars, Aetherling voice, core loop, micro-quests)
 - [ ] **DOCS-04**: Document Aetherling voice rules as a standing review convention for any dialogue changes

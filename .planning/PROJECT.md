@@ -25,7 +25,7 @@ The app makes the user feel understood, inspired, and less pressured — or it d
 
 ### Active
 
-- [ ] Reconcile CLAUDE.md files — merge Dave's Godot architecture docs with Allie's design pillars and voice rules into single source of truth
+- [ ] Reconcile CLAUDE.md -- slim to terse constraints, remove content catalogs, add pointers to src/data/ and docs site
 - [ ] Migrate game design docs and enable GitHub Pages with docs theme
 - [ ] Technical architecture audit — evaluate code structure, component organization, state management patterns
 - [ ] Performance optimization — identify and fix animation jank, memory issues, unnecessary re-renders

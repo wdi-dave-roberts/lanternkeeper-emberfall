@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. MkDocs site deploys to GitHub Pages and is publicly viewable
   2. CHANGELOG.md exists and follows the AI state journal format — first entry captures project state at milestone start
   3. Docs site contains game design goals, design pillars, Aetherling voice rules, core loop, and micro-quest content
-  4. CLAUDE.md is a single reconciled file — Godot architecture docs removed, design pillars and voice rules are the canonical source
+  4. CLAUDE.md is a single reconciled file -- terse constraints only, content catalogs moved to src/data/ and docs site
   5. Emotional acceptance criteria are documented as pillar checks that apply to every future change
 **Plans:** 3 plans
 
