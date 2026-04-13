@@ -86,7 +86,12 @@ Plans:
   3. Fog and leaf animation components live in src/components/scene/ — self-contained, receiving props rather than managing global state
   4. Dead code is deleted — src/screens/, app/modal.tsx, and deprecated storage files are gone
   5. Allie can open any screen file and trace the flow from user action to storage without needing to read more than two files
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — HomePhase discriminated union type + three custom hooks (useHomeScene, useCheckIn, useQuest)
+- [ ] 04-02-PLAN.md — FogWisp/Leaf scene component extraction + dead code deletion
+- [ ] 04-03-PLAN.md — Home screen rewrite as hook composition + human verification
 
 ### Phase 5: Animation Performance
 **Goal**: Fog and leaf gesture interactions run on the UI thread and feel smooth on a physical mid-range Android device — the most important moment of the ritual is not janky
@@ -121,6 +126,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Project Infrastructure | 0/3 | Planning complete | - |
 | 2. Game Mechanics Audit | 0/3 | Planning complete | - |
 | 3. Storage & Data Integrity | 0/2 | Planning complete | - |
-| 4. Architecture Refactor | 0/? | Not started | - |
+| 4. Architecture Refactor | 0/3 | Planning complete | - |
 | 5. Animation Performance | 0/? | Not started | - |
 | 6. Polish & Ship-Readiness | 0/? | Not started | - |
