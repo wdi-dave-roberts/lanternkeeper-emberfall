@@ -89,9 +89,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — HomePhase discriminated union type + three custom hooks (useHomeScene, useCheckIn, useQuest)
-- [ ] 04-02-PLAN.md — FogWisp/Leaf scene component extraction + dead code deletion
-- [ ] 04-03-PLAN.md — Home screen rewrite as hook composition + human verification
+- [x] 04-01-PLAN.md — HomePhase discriminated union type + three custom hooks (useHomeScene, useCheckIn, useQuest)
+- [x] 04-02-PLAN.md — FogWisp/Leaf scene component extraction + dead code deletion
+- [x] 04-03-PLAN.md — Home screen rewrite as hook composition + human verification
 
 ### Phase 5: Animation Performance
 **Goal**: Fog and leaf gesture interactions run on the UI thread and feel smooth on a physical mid-range Android device — the most important moment of the ritual is not janky
