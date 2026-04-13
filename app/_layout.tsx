@@ -37,10 +37,6 @@ export default function RootLayout() {
           <Stack.Screen name="index" />
           <Stack.Screen name="first-lantern" options={{ gestureEnabled: false }} />
           <Stack.Screen name="(tabs)" />
-          <Stack.Screen
-            name="modal"
-            options={{ presentation: "modal", title: "Modal", headerShown: true }}
-          />
         </Stack>
         <StatusBar style="light" />
       </ThemeProvider>
