@@ -361,7 +361,15 @@ Allie built a working prototype through vibe coding — fog clearing, leaf brush
 <!-- GSD:skills-start source:skills/ -->
 ## Project Skills
 
-No project skills found. Add skills to any of: `.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, or `.github/skills/` with a `SKILL.md` index file.
+### setup-environment
+**Trigger:** "setup my environment", "set up my environment", "setup", "get started"
+Detects platform, checks for Node.js, installs dependencies, starts Expo dev server, walks user through connecting phone. Designed for non-technical users.
+Instructions: `.claude/skills/setup-environment.md`
+
+### test-walkthrough
+**Trigger:** `@TESTING-GUIDE.md`, "run the testing guide", "start testing", "test the app"
+Interactive step-by-step testing walkthrough. Explains each test, collects feedback to `testing/FEEDBACK.md`, handles commit/push at the end.
+Instructions: `TESTING-GUIDE.md`
 <!-- GSD:skills-end -->
 
 <!-- GSD:workflow-start source:GSD defaults -->

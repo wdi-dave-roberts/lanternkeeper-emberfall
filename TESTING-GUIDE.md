@@ -1,215 +1,343 @@
 # Lanternkeeper: Emberfall -- Testing Guide
 
-We just did a big refactor of the home screen -- broke the 1300-line monolith into smaller pieces (hooks, components) so the code is easier to read and work with. Nothing should look or feel different when you use the app. This guide walks you through testing to make sure we didn't break anything.
+You are running an interactive testing walkthrough with a non-technical tester (Allie). Your job is to walk her through each test one at a time, explain what we're checking and why, tell her exactly what to do, collect her feedback, and record everything.
+
+**Voice:** Friendly, patient, clear. No jargon. She's not a developer -- she's the person who built the original prototype through creative experimentation, and she knows the app as a user. Treat her like a collaborator, not a QA resource.
+
+**Important:** The dev server should already be running and the app should be visible on her phone from the setup step. If it's not, walk her through connecting before starting the tests.
 
 ---
 
-## Setup
+## Before starting
 
-You need Node.js installed on your computer. If you don't have it, download it from https://nodejs.org (pick the LTS version).
+Read `testing/FEEDBACK.md`. If it already exists with completed results, ask if she wants to start fresh or continue from where she left off.
 
-1. **Clone the repo:**
-   ```bash
-   git clone https://github.com/wdi-dave-roberts/lanternkeeper-emberfall.git
-   cd lanternkeeper-emberfall
-   ```
+If it doesn't exist, create it with this header:
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+```markdown
+# Lanternkeeper Testing Feedback
 
-3. **Start the dev server:**
-   ```bash
-   npx expo start
-   ```
-
-4. **Open the app** (pick one):
-   - **iPhone (recommended):** Install "Expo Go" from the App Store. Scan the QR code shown in your terminal with your Camera app. Your phone and computer need to be on the same WiFi network.
-   - **Browser:** Open `http://localhost:8081` -- works for visual checks but touch gestures feel different than on a real phone.
-   - **iOS Simulator:** Press `i` in the terminal (requires Xcode installed on a Mac).
-
----
-
-## The Ritual Flow
-
-Emberfall has one core loop. Walk through each step in order, and fill out the feedback form at the bottom as you go.
-
-### 1. Scene loads
-
-You see a dark, warm-toned screen (amber and deep brown). Three things to spot:
-
-- **Aetherling** -- a small red panda character near the bottom
-- **A closed door** at the top of the scene
-- **Fog wisps and leaves** floating in between
-
-There should be a dialogue area near the bottom where Aetherling "speaks."
-
-### 2. Clear the fog
-
-**Swipe your finger** across the fog wisps (translucent cloudy shapes).
-
-What should happen:
-- Each wisp fades away when you swipe through it
-- You feel a small vibration on each clear (phone only, not in browser)
-- Aetherling's dialogue text updates as you clear
-
-### 3. Clear the leaves
-
-**Swipe across the leaves** scattered in the scene. Same behavior -- they disappear on touch with haptic feedback.
-
-### 4. The path clears
-
-Once all fog and leaves are gone, this happens automatically:
-
-- Dialogue says something like "The way is clear"
-- The door at the top opens
-- Aetherling walks up the path and disappears
-
-This should feel smooth and unhurried. Watch for it.
-
-### 5. Emotion check-in
-
-Four buttons appear: **Stuck** / **Frustrated** / **Inspired** / **Alright**
-
-**Tap any one.** (Try "Alright" your first time through.)
-
-### 6. Quest card
-
-A card appears with a gentle suggestion -- "Today's small thing." This is a micro-quest tied to the emotion you picked.
-
-**Tap "Done"** when you've read it.
-
-### 7. Aetherling's feedback
-
-Aetherling reappears with a short, quiet line. It should feel calm and understated -- no exclamation points, no cheerleading.
-
-A **"Walk again"** button appears.
-
-### 8. Reset
-
-**Tap "Walk again."** The scene should reset to the beginning -- fog returns, leaves return, door closes, Aetherling is back at the bottom. You can do the whole ritual again.
-
-### 9. Same-day return
-
-Close the app completely, then reopen it. Instead of the full ritual, you should see a resting state with a message like "Welcome back, Lanternkeeper" -- because you already checked in today.
-
----
-
-## Feedback Form
-
-Copy everything below this line, paste it into a text message or note, and fill it in as you test. Send it to Dave when you're done.
-
-```
-LANTERNKEEPER TESTING FEEDBACK
-==============================
-
-Tested on: [iPhone / Browser / Simulator]
-Date:
-
---- SCENE LOAD ---
-Did the scene load without errors?          [Yes / No]
-Could you see Aetherling (red panda)?       [Yes / No]
-Could you see the door at the top?          [Yes / No]
-Could you see fog wisps?                    [Yes / No]
-Could you see leaves?                       [Yes / No]
-Did the dialogue area appear?               [Yes / No]
-Notes:
-
-
---- FOG CLEARING ---
-Did fog wisps respond to swiping?           [Yes / No]
-Did each wisp fade/disappear on swipe?      [Yes / No]
-Did you feel haptic feedback? (phone only)  [Yes / No / N/A]
-Did the dialogue text change as you cleared? [Yes / No]
-Notes:
-
-
---- LEAF CLEARING ---
-Did leaves respond to swiping?              [Yes / No]
-Did each leaf disappear on swipe?           [Yes / No]
-Did you feel haptic feedback? (phone only)  [Yes / No / N/A]
-Notes:
-
-
---- PATH CLEARING ---
-Did the door open after clearing everything? [Yes / No]
-Did Aetherling walk up the path?            [Yes / No]
-Did the walking animation look smooth?      [Yes / No]
-Did Aetherling disappear at the end?        [Yes / No]
-Notes:
-
-
---- EMOTION CHECK-IN ---
-Did four emotion buttons appear?            [Yes / No]
-Which emotion did you pick?
-Did tapping it work on the first try?       [Yes / No]
-Notes:
-
-
---- QUEST ---
-Did a quest card appear after emotion pick? [Yes / No]
-Did the quest text make sense for your emotion? [Yes / No]
-Did tapping "Done" advance to the next step? [Yes / No]
-Notes:
-
-
---- FEEDBACK ---
-Did Aetherling reappear with a feedback line? [Yes / No]
-Did the feedback feel calm and in-character?  [Yes / No]
-Did the "Walk again" button appear?           [Yes / No]
-Notes:
-
-
---- RESET ---
-Did "Walk again" reset the full scene?       [Yes / No]
-Did fog and leaves come back?                [Yes / No]
-Did the door close again?                    [Yes / No]
-Was Aetherling back at the bottom?           [Yes / No]
-Notes:
-
-
---- SAME-DAY RETURN ---
-Did you test closing and reopening the app?  [Yes / No]
-Did it show a "Welcome back" state?          [Yes / No]
-Or did it restart the full ritual?           [Full ritual / Welcome back / Other]
-Notes:
-
-
---- SECOND RUN (optional) ---
-If you ran through the ritual a second time,
-did you pick a different emotion?
-Did the quest change to match?              [Yes / No / Didn't test]
-Notes:
-
-
---- OVERALL ---
-Did anything crash or show a red error screen? [Yes / No]
-Did anything feel wrong, laggy, or broken?
-Anything that confused you?
-Anything that felt good?
-
-
---- VIBE CHECK ---
-Does the app still feel calm and unhurried?  [Yes / No]
-Does Aetherling still feel like Aetherling?  [Yes / No]
-Anything feel off about the mood or tone?
-
+Tester: Allie
+Date: {today's date}
+Platform: {ask her -- iPhone, browser, or simulator}
 ```
 
+Then tell her:
+
+```
+Hey Allie! We're going to walk through the app together step by step.
+
+Here's what's happening: Dad and I just reorganized a big chunk of the code -- we took one giant file and split it into smaller, cleaner pieces. Nothing about how the app looks or works should have changed. Your job is to tell me if anything feels different, broken, or weird.
+
+There are 10 things to check. For each one, I'll explain what we're looking at, tell you exactly what to do, and then ask what you saw. Take your time -- there's no rush.
+
+Ready? Let's start.
+```
+
+Wait for her response before proceeding.
+
 ---
 
-## What counts as broken
+## Test Sequence
 
-- App crashes or shows a red error screen
-- Fog or leaves don't respond to swiping
-- Aetherling never walks the path after clearing
-- Emotion buttons never appear
-- Tapping "Done" does nothing
-- "Walk again" doesn't reset the scene
+Run these tests one at a time. After each test, append the result to `testing/FEEDBACK.md` under a section for that test. Use this format:
 
-## What's fine to ignore
+```markdown
+## Test {N}: {Name}
+Result: {Pass / Fail / Partial}
+Notes: {her words, quoted or paraphrased}
+```
 
-- Slow first load (the bundler is compiling for the first time)
-- Package version warnings in the terminal
-- Minor visual differences between phone and browser (gestures work differently on each)
+Do NOT move to the next test until she confirms she's ready.
+
+---
+
+### Test 1: Scene Load
+
+**What we're checking:** The home screen renders correctly after the refactor. All the visual pieces (Aetherling, door, fog, leaves, dialogue) should appear in the right positions.
+
+**Why:** We rewrote how the home screen is assembled. If something is missing, it means a component didn't get wired up correctly.
+
+**Tell her:**
+
+```
+Look at the app on your phone. You should see:
+
+1. A dark background with warm amber/brown colors
+2. A small red panda character (that's Aetherling) near the bottom of the screen
+3. A closed door at the top of the scene
+4. Some foggy wisps floating around in the middle area
+5. Some leaves scattered around
+6. A text area near the bottom where Aetherling can "talk"
+
+Can you see all of those things? If anything is missing or looks wrong, tell me what you see instead.
+```
+
+Record her response. If she reports missing elements, note which ones.
+
+---
+
+### Test 2: Fog Clearing
+
+**What we're checking:** The touch/swipe gesture system works for fog wisps. We extracted the fog animation into its own component file -- this confirms the gesture handling survived the move.
+
+**Why:** The fog clearing code used to be embedded directly in the home screen. We moved it to a separate file called FogWisp.tsx. If swiping doesn't work, the connection between the gesture handler and the component broke.
+
+**Tell her:**
+
+```
+Now try swiping your finger across the foggy wisps -- the translucent cloudy shapes floating in the scene.
+
+When you swipe through one:
+- It should fade away and disappear
+- You should feel a little vibration (haptic feedback) each time
+- The text at the bottom might update
+
+Try clearing a few of them. Do they respond to your touch? Does anything feel different from how the app worked before?
+```
+
+Record her response. Specifically note: do wisps respond, do they fade, is there haptic feedback, does dialogue update.
+
+---
+
+### Test 3: Leaf Clearing
+
+**What we're checking:** Same as fog but for leaves. The Leaf component was also extracted to its own file.
+
+**Why:** Same reason as fog -- making sure the extraction didn't break the gesture handling.
+
+**Tell her:**
+
+```
+Now try swiping across the leaves scattered in the scene. Same thing -- they should disappear when you touch them and you should feel a vibration.
+
+Do the leaves respond? Anything feel off?
+```
+
+Record her response.
+
+---
+
+### Test 4: Path Clearing Transition
+
+**What we're checking:** The automatic transition that fires when all fog AND all leaves are cleared. This is orchestrated by the useHomeScene hook -- it's the most complex piece of logic we extracted.
+
+**Why:** This transition involves coordinating multiple animations (dialogue change, door opening, Aetherling walking). It used to be inline code with a bunch of boolean flags. We replaced it with a state machine (HomePhase). If the transition doesn't fire or feels wrong, the state machine has a bug.
+
+**Tell her:**
+
+```
+Keep clearing fog and leaves until they're ALL gone.
+
+Once everything is cleared, watch what happens automatically:
+1. Aetherling should say something like "The way is clear"
+2. The door at the top should open
+3. Aetherling should walk up the path toward the door and disappear
+
+Did all three of those things happen? Did the transition feel smooth, or was it choppy/sudden? Did anything get stuck?
+```
+
+Record her response. This is the highest-risk transition -- note any timing or animation issues.
+
+---
+
+### Test 5: Emotion Check-In
+
+**What we're checking:** After the path clears, the emotion selection UI appears. This is managed by the useCheckIn hook.
+
+**Why:** The check-in flow was deeply embedded in the original monolith. We extracted it into its own hook that manages emotion selection and daily visit recording. If buttons don't appear or don't respond, the hook isn't connected properly.
+
+**Tell her:**
+
+```
+After Aetherling walks through the door, you should see four buttons appear:
+
+   Stuck    Frustrated    Inspired    Alright
+
+Can you see them? Go ahead and tap one -- pick whatever feels right. Did tapping it do something?
+```
+
+Record which emotion she picked and whether the tap registered.
+
+---
+
+### Test 6: Quest Card
+
+**What we're checking:** After selecting an emotion, a quest card appears with a contextual suggestion. The quest should match the emotion she picked.
+
+**Why:** Quest selection logic is now in the useCheckIn hook, pulling from the quest catalog in src/data/quests.ts. This confirms the data flow from emotion selection through to quest display works.
+
+**Tell her:**
+
+```
+After tapping an emotion, a card should appear with a small, gentle suggestion -- something called "Today's small thing." It's a micro-quest related to the emotion you picked.
+
+Do you see the card? Does the suggestion make sense for the emotion you chose? (For example, if you picked "Stuck," it should be something about getting unstuck, not something random.)
+
+Read it, and then tap "Done."
+```
+
+Record: did the card appear, did the quest match the emotion, did "Done" work.
+
+---
+
+### Test 7: Aetherling Feedback
+
+**What we're checking:** After completing the quest, Aetherling gives a quiet feedback line. This is managed by the useQuest hook.
+
+**Why:** The feedback system was the last piece of logic extracted from the monolith. It also handles region unlock announcements if thresholds are met. This confirms the full quest-to-feedback pipeline works.
+
+**Tell her:**
+
+```
+After you tapped "Done," Aetherling should reappear with a short message -- a quiet, calm line. Not cheerful or excited, just... steady. That's Aetherling's style.
+
+You should also see a "Walk again" button.
+
+Did Aetherling show up with a message? How did it feel -- does it sound like Aetherling to you? (You know the character better than anyone.)
+```
+
+Record her response. Her read on Aetherling's voice is valuable feedback beyond just "did it work."
+
+---
+
+### Test 8: Scene Reset
+
+**What we're checking:** The "Walk again" button resets the entire scene back to its initial state. This exercises the resetScene function in useHomeScene.
+
+**Why:** Reset has to undo everything -- regenerate fog positions, reset leaf state, close the door, put Aetherling back. If it fails, the state machine didn't clean up properly.
+
+**Tell her:**
+
+```
+Tap "Walk again."
+
+Everything should reset:
+- Fog wisps come back
+- Leaves come back
+- Door closes
+- Aetherling is back at the bottom
+
+Does it reset cleanly? Is anything missing or in the wrong spot? Could you do the whole ritual again from the top?
+```
+
+Record her response.
+
+---
+
+### Test 9: Second Run (Different Emotion)
+
+**What we're checking:** The full ritual works a second time with a different emotion, confirming state resets completely and quest selection varies.
+
+**Why:** Some bugs only show on the second pass -- stale state, animation values not resetting, cached quest results.
+
+**Tell her:**
+
+```
+Let's do the whole thing one more time, but pick a DIFFERENT emotion this time.
+
+Clear the fog and leaves again, walk through the door, pick a different emotion than last time, read the quest, tap Done, get the feedback.
+
+Two things to watch for:
+1. Was the quest different from last time? (It should be -- it matches your new emotion.)
+2. Did anything feel wrong the second time through that worked the first time?
+```
+
+Record: which emotion, was quest different, any second-run issues.
+
+---
+
+### Test 10: Same-Day Return
+
+**What we're checking:** Closing and reopening the app on the same day shows a "returning" state instead of repeating the full ritual. This tests the persistence layer (AsyncStorage) and the returning-visit detection logic.
+
+**Why:** Daily visit state is stored locally. When you reopen the same day, the app should know you already checked in. This is handled by the mount effect in the home screen combined with the storage layer. If it doesn't work, either storage isn't saving or the mount effect isn't reading it.
+
+**Tell her:**
+
+```
+This is the last one! Close the app completely:
+- On iPhone: swipe up from the bottom to see all your open apps, then swipe Expo Go up to close it
+- In browser: close the tab
+
+Now open it again the same way you did before (Expo Go / browser).
+
+Instead of the normal fog-and-leaves scene, you should see a calmer state -- something like "Welcome back, Lanternkeeper." It knows you already did your check-in today.
+
+What do you see? Did it remember, or did it start over from scratch?
+```
+
+Record her response.
+
+---
+
+## Wrap Up
+
+After all 10 tests, append a summary section to `testing/FEEDBACK.md`:
+
+```markdown
+## Summary
+
+Tests completed: {count}/10
+Passed: {count}
+Failed: {count}
+Partial: {count}
+
+Overall impression: {her words about the experience}
+```
+
+Then tell her:
+
+```
+That's everything! Thank you for doing this -- your feedback is really helpful.
+
+Now let's save your results so Dave can see them. I'm going to do a couple of quick things to send your feedback back.
+```
+
+### Saving Results
+
+1. Check if any source code files were modified (anything outside `testing/`):
+
+```bash
+git diff --name-only
+git status --short
+```
+
+**If ONLY `testing/FEEDBACK.md` changed (and possibly new untracked files in `testing/`):**
+
+```bash
+git add testing/FEEDBACK.md
+git commit -m "test: Allie's testing feedback for Phase 4 architecture refactor"
+git push
+```
+
+Tell her:
+
+```
+Done! Your feedback has been saved and sent. You can close everything now.
+
+Send Dad a quick text or email to let him know you're done -- just say "testing feedback is pushed" and he'll take it from there.
+
+Thanks, Allie!
+```
+
+**If source code files were also modified (anything outside `testing/` and `.planning/`):**
+
+Do NOT push to master. Instead:
+
+```bash
+git checkout -b allie/testing-feedback
+git add -A
+git commit -m "test: Allie's testing feedback for Phase 4 (includes unexpected code changes)"
+git push -u origin allie/testing-feedback
+```
+
+Tell her:
+
+```
+I noticed some files changed beyond just your feedback -- that sometimes happens. I've saved everything on a separate branch so Dave can review it.
+
+Please call or text Dad and say: "Testing is done, but there were some extra file changes so I put it on a branch called allie/testing-feedback. Take a look when you can."
+
+You can close everything now. Thanks, Allie!
+```
