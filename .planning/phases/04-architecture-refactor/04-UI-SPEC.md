@@ -1,7 +1,7 @@
 ---
 phase: 4
 slug: architecture-refactor
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-04-13
