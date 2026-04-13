@@ -42,7 +42,7 @@ export default function FirstLanternScreen() {
 
   // Auto-advance through initial phases
   useEffect(() => {
-    const timers: NodeJS.Timeout[] = [];
+    const timers: ReturnType<typeof setTimeout>[] = [];
 
     if (phase === "fog") {
       timers.push(setTimeout(() => setPhase("aetherling-appears"), 2000));

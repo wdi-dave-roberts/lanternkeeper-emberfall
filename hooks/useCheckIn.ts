@@ -11,9 +11,7 @@ import { HomePhase, Emotion, Quest } from '@/src/data/types';
 import { WorldState } from '@/lib/storage';
 
 interface UseCheckInParams {
-  phase: HomePhase;
   setPhase: (phase: HomePhase) => void;
-  setDialogue: (text: string) => void;
   setShowDialogue: (show: boolean) => void;
   worldState: WorldState | null;
   setWorldState: (state: WorldState) => void;

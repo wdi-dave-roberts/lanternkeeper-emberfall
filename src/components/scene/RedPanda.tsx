@@ -4,7 +4,7 @@
  * Receives path points and walk trigger from the home screen.
  */
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
 interface Props {
@@ -19,15 +19,17 @@ export function RedPanda({ isWalking, onWalkComplete, pathPoints }: Props) {
   const opacity = useRef(new Animated.Value(1)).current;
   const bobble = useRef(new Animated.Value(0)).current;
 
+  // Reset position when path changes — but only when not walking (WR-03)
   useEffect(() => {
-    if (pathPoints[0]) {
+    if (!isWalking && pathPoints[0]) {
       posX.setValue(pathPoints[0].x);
       posY.setValue(pathPoints[0].y);
       opacity.setValue(1);
       bobble.setValue(0);
     }
-  }, [pathPoints, posX, posY, opacity, bobble]);
+  }, [isWalking, pathPoints, posX, posY, opacity, bobble]);
 
+  // Walk animation — includes pathPoints in deps (WR-04)
   useEffect(() => {
     if (isWalking && pathPoints.length > 1) {
       const bobbleAnim = Animated.loop(
@@ -53,7 +55,7 @@ export function RedPanda({ isWalking, onWalkComplete, pathPoints }: Props) {
         onWalkComplete();
       });
     }
-  }, [isWalking, posX, posY, opacity, bobble, onWalkComplete]);
+  }, [isWalking, pathPoints, posX, posY, opacity, bobble, onWalkComplete]);
 
   return (
     <Animated.View

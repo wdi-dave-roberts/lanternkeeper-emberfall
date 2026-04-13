@@ -7,7 +7,7 @@
  * all the state and handlers it needs to render the scene.
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Gesture } from 'react-native-gesture-handler';
 import * as Haptics from 'expo-haptics';
 import { loadFogState, saveFogState } from '@/lib/storage';
@@ -59,6 +59,12 @@ export function useHomeScene({
 
   const [clearedFog, setClearedFog] = useState<Set<number>>(new Set());
   const [clearedLeaves, setClearedLeaves] = useState<Set<number>>(new Set());
+
+  // Refs for gesture callback — avoids stale closure captures (WR-01)
+  const clearedFogRef = useRef(clearedFog);
+  clearedFogRef.current = clearedFog;
+  const clearedLeavesRef = useRef(clearedLeaves);
+  clearedLeavesRef.current = clearedLeaves;
   const [doorOpen, setDoorOpen] = useState(false);
   const [isWalking, setIsWalking] = useState(false);
   const [pandaGone, setPandaGone] = useState(false);
@@ -90,15 +96,19 @@ export function useHomeScene({
       setShowDialogue(true);
       setPhase({ phase: 'transitioning' });
 
+      let walkTimer: ReturnType<typeof setTimeout>;
       const doorTimer = setTimeout(() => {
         setDoorOpen(true);
-        setTimeout(() => {
+        walkTimer = setTimeout(() => {
           setIsWalking(true);
           setShowDialogue(false);
         }, GAME_CONFIG.timing.doorOpenToWalkStartMs);
       }, GAME_CONFIG.timing.pathClearedToDoorsOpenMs);
 
-      return () => clearTimeout(doorTimer);
+      return () => {
+        clearTimeout(doorTimer);
+        clearTimeout(walkTimer);
+      };
     }
   }, [clearedFog, clearedLeaves, FOG_WISPS.length, LEAVES.length, phase.phase, setDialogue, setPhase, setShowDialogue]);
 
@@ -182,7 +192,7 @@ export function useHomeScene({
       const touchY = event.y;
 
       FOG_WISPS.forEach((wisp) => {
-        if (!clearedFog.has(wisp.id)) {
+        if (!clearedFogRef.current.has(wisp.id)) {
           const dx = touchX - wisp.x;
           const dy = touchY - wisp.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
@@ -193,7 +203,7 @@ export function useHomeScene({
       });
 
       LEAVES.forEach((leaf) => {
-        if (!clearedLeaves.has(leaf.id)) {
+        if (!clearedLeavesRef.current.has(leaf.id)) {
           const dx = touchX - leaf.x;
           const dy = touchY - leaf.y;
           const distance = Math.sqrt(dx * dx + dy * dy);

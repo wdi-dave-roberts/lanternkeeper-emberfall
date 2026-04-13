@@ -1,6 +1,6 @@
 /** Leaf — interactive leaf that tumbles away when cleared */
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import { GAME_CONFIG } from '@/src/config/game';
 

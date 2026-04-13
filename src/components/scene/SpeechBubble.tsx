@@ -3,7 +3,7 @@
  * Aetherling's voice — fades in when visible, fades out when hidden.
  */
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated, StyleSheet, Text } from 'react-native';
 
 interface Props {

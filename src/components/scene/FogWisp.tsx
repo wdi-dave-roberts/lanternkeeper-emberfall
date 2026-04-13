@@ -1,6 +1,6 @@
 /** FogWisp — interactive fog wisp that fades when cleared */
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated, Pressable, StyleSheet } from 'react-native';
 import { GAME_CONFIG } from '@/src/config/game';
 

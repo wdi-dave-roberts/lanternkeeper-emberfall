@@ -112,7 +112,7 @@ export default function HomeScreen() {
   const scene = useHomeScene({ phase, setPhase, setDialogue, setShowDialogue, sceneConfig });
 
   // -- Ritual: emotion check-in -> quest -> feedback -> complete --
-  const checkIn = useCheckIn({ phase, setPhase, setDialogue, setShowDialogue, worldState, setWorldState });
+  const checkIn = useCheckIn({ setPhase, setShowDialogue, worldState, setWorldState });
   const quest = useQuest({
     phase,
     setPhase,

@@ -3,7 +3,7 @@
  * Animates the door opening when Aetherling's path is clear.
  */
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
 interface Props {
