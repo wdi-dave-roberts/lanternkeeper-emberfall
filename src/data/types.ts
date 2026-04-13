@@ -37,3 +37,14 @@ export interface AppState {
 
 // Navigation screen names
 export type ScreenName = 'Home' | 'CheckIn' | 'Quest' | 'IdeaSeed';
+
+/** Home screen ritual phases — discriminated union replacing boolean flags */
+export type HomePhase =
+  | { phase: 'idle' }
+  | { phase: 'clearing' }
+  | { phase: 'transitioning' }
+  | { phase: 'check-in' }
+  | { phase: 'quest'; emotion: Emotion; quest: string }
+  | { phase: 'feedback'; emotion: Emotion; line: string }
+  | { phase: 'complete' }
+  | { phase: 'returning' };

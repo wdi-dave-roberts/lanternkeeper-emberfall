@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GAME_CONFIG } from '@/src/config/game';
-import type { Emotion, Quest, DailyLog } from '@/src/data/types';
 
 const LOG_PREFIX = 'daily-log:';
 const FIRST_LANTERN_KEY = 'first-lantern-seen';
@@ -137,6 +136,11 @@ export async function saveFogState(fogIds: number[], leafIds: number[]): Promise
   }
 }
 
+export interface DailyLog {
+  date: string;
+  completedQuests: string[];
+}
+
 // Get today's date as YYYY-MM-DD
 export function getTodayKey(): string {
   const now = new Date();
@@ -162,24 +166,41 @@ export async function loadDailyLog(date: string): Promise<DailyLog | null> {
   return JSON.parse(data) as DailyLog;
 }
 
-// Load today's log (convenience) -- returns null if no ritual completed today
-export async function loadTodayLog(): Promise<DailyLog | null> {
-  return loadDailyLog(getTodayKey());
+// Load today's log (convenience)
+export async function loadTodayLog(): Promise<DailyLog> {
+  const today = getTodayKey();
+  const existing = await loadDailyLog(today);
+  return existing ?? { date: today, completedQuests: [] };
 }
 
-// Save a complete daily ritual from emotion and quest context
-export async function saveDailyRitual(
-  emotion: Emotion,
-  quest: Quest
-): Promise<DailyLog> {
-  const log: DailyLog = {
-    date: getTodayKey(),
-    emotion,
-    quest,
-    completed: true,
-    completedAt: new Date().toISOString(),
-  };
-  await saveDailyLog(log);
+// Mark a quest as completed for today
+export async function completeQuest(questId: string): Promise<DailyLog> {
+  const log = await loadTodayLog();
+  if (!log.completedQuests.includes(questId)) {
+    log.completedQuests.push(questId);
+    await saveDailyLog(log);
+  }
   return log;
 }
 
+// Calculate current streak (consecutive days with at least one quest)
+export async function calculateStreak(): Promise<number> {
+  let streak = 0;
+  const today = new Date();
+
+  for (let i = 0; i < 365; i++) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    const key = date.toISOString().split('T')[0];
+    const log = await loadDailyLog(key);
+
+    if (log && log.completedQuests.length > 0) {
+      streak++;
+    } else if (i > 0) {
+      // Allow today to be incomplete, but break on past empty days
+      break;
+    }
+  }
+
+  return streak;
+}

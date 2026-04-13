@@ -13,17 +13,19 @@ import {
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
-  saveDailyRitual,
+  completeQuest,
   FogState,
   getTodayKey,
   loadFogState,
+  loadTodayLog,
   loadWorldState,
   recordDailyVisit,
   saveFogState,
   WorldState,
 } from "@/lib/storage";
 import { GAME_CONFIG } from "@/src/config/game";
-import type { Emotion } from "@/src/data/types";
+
+type Emotion = "stuck" | "frustrated" | "inspired" | "alright";
 
 // Helper to generate positions based on screen dimensions (mobile-first)
 function getSceneConfig(width: number, height: number, topInset: number) {
@@ -516,8 +518,9 @@ export default function HomeScreen() {
   // Load saved state on mount
   useEffect(() => {
     async function loadState() {
-      const [state, fogState] = await Promise.all([
+      const [state, todayLog, fogState] = await Promise.all([
         loadWorldState(),
+        loadTodayLog(),
         loadFogState(),
       ]);
       setWorldState(state);
@@ -536,9 +539,12 @@ export default function HomeScreen() {
         setPathCleared(true);
         setDoorOpen(true);
         setPandaGone(true);
-        // lastVisitDate === today means recordDailyVisit was called during quest completion
-        setQuestDone(true);
-        setDialogue("Welcome back, Lanternkeeper.");
+        if (todayLog.completedQuests.length > 0) {
+          setQuestDone(true);
+          setDialogue("Welcome back, Lanternkeeper.");
+        } else {
+          setDialogue("The path awaits.");
+        }
       }
     }
     loadState();
@@ -693,11 +699,8 @@ export default function HomeScreen() {
     }
     setShowDialogue(true);
 
-    await saveDailyRitual(emotion!, {
-      id: `${getTodayKey()}-${emotion}`,
-      emotion: emotion!,
-      text: quest,
-    });
+    const questId = `${getTodayKey()}-${emotion}`;
+    await completeQuest(questId);
   }, [emotion, newUnlocks]);
 
   const resetMorning = () => {
